@@ -1,91 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace _30._7
+namespace RecipeApp
 {
-    public class Recetas
+    public class TRecetas
     {
-
-
         public int[] Id { get; set; }
         public string[] Name { get; set; }
         public string[] Description { get; set; }
         public int Indice { get; set; }
-        public Recetas(int[] id, string[] name, string[] description, int index)
+
+        public TRecetas(int[] id, string[] name, string[] description, int index)
         {
             Id = id;
             Name = name;
             Description = description;
             Indice = index;
         }
-        public int NewRecipe(int[] id, string[] name, string[] description, int index)
+
+        public int NewRecipe()
         {
             Console.Clear();
             Console.WriteLine("------------------------------");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("       ADD NEW PRODUCT");
+            Console.WriteLine("       ADD NEW RECIPE");
             Console.ResetColor();
             Console.WriteLine("------------------------------\n");
+
             try
             {
-                Console.WriteLine("Name recipe: ");
-                name[index] = Console.ReadLine();
-                Console.WriteLine("Description: ");
-                description[index] = Console.ReadLine();
+                Console.Write("Name recipe: ");
+                Name[Indice] = Console.ReadLine();
+                Console.Write("\nDescription: ");
+                Description[Indice] = Console.ReadLine();
+                Console.Write("ID recipe: ");
+                Id[Indice] = Convert.ToInt32(Console.ReadLine());
             }
-            catch (FormatException MessageError1)
+            catch (FormatException ex)
             {
-
-                Console.WriteLine("Error found: " + MessageError1);
+                Console.WriteLine("Error found: " + ex.Message);
             }
-            Console.WriteLine("ID recipe: ");
-            id[index] = Convert.ToInt32(Console.ReadLine());
 
-
-            return index++;
+            return ++Indice;
         }
+
         public void ConsultRecipe()
         {
+            Console.Clear();
             Console.WriteLine("------------------------------");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("       CONSULT PRODUCT");
+            Console.WriteLine("       CONSULT RECIPE");
             Console.ResetColor();
             Console.WriteLine("------------------------------\n");
-            Console.WriteLine("Write name recipe: ");
-            string RecipeConsult = Console.ReadLine();
+            Console.Write("Write name recipe: ");
+            string recipeConsult = Console.ReadLine();
+
+            bool found = false;
+
             for (int i = 0; i < Indice; i++)
             {
-                if (Name[i] == RecipeConsult)
+                if (Name[i].Equals(recipeConsult, StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine($"ID: {Id[i]}");
                     Console.WriteLine($"Recipe Name: {Name[i]}");
                     Console.WriteLine($"Description: {Description[i]}");
+                    found = true;
+                    break;
                 }
-                else
-                    Console.WriteLine("Recipe NO FOUND");
             }
 
+            if (!found)
+            {
+                Console.WriteLine("NO FOUND");
+            }
         }
+
         public void ShowResume()
         {
+            Console.Clear();
             Console.WriteLine("------------------------------");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("            RESUMÉ  ");
+            Console.WriteLine("            RESUME");
             Console.ResetColor();
             Console.WriteLine("------------------------------\n");
+
+            if (Indice == 0)
+            {
+                Console.WriteLine("No recipes available.");
+                return;
+            }
 
             for (int i = 0; i < Indice; i++)
             {
                 Console.WriteLine("--------------------------------------------------------------");
-                Console.WriteLine($"ID: {Id[i]}, Name: {Name[i]}, Desciption: { Description[i]}");
+                Console.WriteLine($"ID: {Id[i]}, Name: {Name[i]}, Description: {Description[i]}");
                 Console.WriteLine("--------------------------------------------------------------");
             }
-
-
         }
     }
 }
